@@ -1,6 +1,8 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import React, {FC} from "react";
 import {Button} from 'react-native-elements';
+import {requiredCurrencies} from "../constants";
+import Dropdown from "./Dropdown";
 
 const styles = StyleSheet.create({
     itemWrapper: {
@@ -33,15 +35,34 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({img, id, name, quantity, currency, price, setValues, values}) => {
+type ListItemProps = {
+    img: any,
+    id: number,
+    name: string,
+    quantity: number,
+    currency: string,
+    price: number,
+    changeQuantity: any,
+    changeCurrency: any
+}
 
-    const pressHandler = (id: number, isIncrement: boolean) => {
-        console.log(id, isIncrement);
-        console.log(quantity);
-        if (isIncrement) {
+const ListItem: FC<ListItemProps> = ({
+                                         img,
+                                         id,
+                                         name,
+                                         quantity,
+                                         currency,
+                                         price,
+                                         changeQuantity,
+                                         changeCurrency
+                                     }) => {
 
+    const dropdownItems = requiredCurrencies.map((item) => {
+        return {
+            label: item,
+            value: item,
         }
-    };
+    });
 
     return (
         <View style={styles.itemWrapper}>
@@ -53,24 +74,29 @@ const ListItem = ({img, id, name, quantity, currency, price, setValues, values})
                     {name}
                 </Text>
                 <Text style={styles.priceGood}>
-                    {price}
+                    {price} RUB
                 </Text>
                 <View style={styles.quantityGoodWrapper}>
                     <Button
                         style={styles.quantityButton}
                         title="&#8722;"
-                        onPress={() => pressHandler(id, false)}
+                        onPress={() => changeQuantity(false, id)}
                     />
-                    <Text
-                        style={styles.quantityGood}>
+                    <Text style={styles.quantityGood}>
                         {quantity}
                     </Text>
                     <Button
                         style={styles.quantityButton}
                         title="+"
-                        onPress={() => pressHandler(id, true)}
+                        onPress={() => changeQuantity(true, id)}
                     />
                 </View>
+                <Dropdown
+                    items={dropdownItems}
+                    id={id}
+                    onChange={changeCurrency}
+                    value={currency}
+                />
             </View>
         </View>
     );

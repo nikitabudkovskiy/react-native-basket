@@ -24,3 +24,8 @@ export type goodsType = {
     currency: string,
     price: number
 }
+
+export type DropdownItemsType = {
+    label: string,
+    value: string
+}

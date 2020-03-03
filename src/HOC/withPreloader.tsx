@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActivityIndicator} from "react-native";
+import Preloader from "../components/Preloader";
 
 interface WithPreloaderProps {
     isLoading: boolean;
@@ -8,9 +8,9 @@ interface WithPreloaderProps {
 const withPreloader = <P extends object>(Component: React.ComponentType<P>) =>
     class WithPreloader extends React.Component<P & WithPreloaderProps> {
         render() {
-            const { isLoading, ...props } = this.props;
+            const {isLoading, ...props} = this.props;
             return isLoading
-                ? <ActivityIndicator size="large" color="#0000ff" />
+                ? <Preloader/>
                 : <Component {...props as P} />
         }
     };
